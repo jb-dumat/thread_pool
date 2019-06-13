@@ -5,6 +5,11 @@ project(thread_pool)
 set(SOURCES
 	main.cpp
 	
+	include/CompletionHandler.hpp
+	include/CrossQueue.hpp
+	include/Service.hpp
+	include/ThreadPool.hpp
+
 	source/Service.cpp
 	source/ThreadPool.cpp
 )

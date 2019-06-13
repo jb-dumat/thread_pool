@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace async {
+namespace kpm::async {
 
 Service::Service(CrossQueue<CompletionHandler> *q, std::mutex *m, std::condition_variable *c)
 	: _q(q), _m(m), _c(c), _isActive(false), _stop(false)
@@ -47,14 +47,12 @@ void Service::run()
 				continue;
 		}
 
-		{
-		std::unique_lock<std::mutex> _l(*_m);
 		CompletionHandler task = std::move(_q->front());
 		_q->pop();
+
 		_isActive = true;
 		task();
 		_isActive = false;
-		}
 	}
 }
 
@@ -63,7 +61,7 @@ void Service::setStop()
 	_stop = true;
 }
 
-void Service::tryJoin()
+void Service::stopContext()
 {
 	if (_t.joinable())
 		_t.join();

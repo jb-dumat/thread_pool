@@ -1,11 +1,9 @@
 #include <memory>
 #include <utility>
 
-#include <iostream>
-
 #pragma once
 
-namespace async {
+namespace kpm::async {
 
 class CompletionHandler {
 public:
@@ -14,14 +12,21 @@ public:
 	template<typename Type, typename DerefType = typename std::decay<Type>::type>
 	CompletionHandler(Type &&f)
 		: _deleter([](void *ptr) { delete static_cast<DerefType*>(ptr); }),
-		  _invoker([](void *ptr) { (*static_cast<DerefType*>(ptr))(); } ),
+		  _invoker([](void *ptr) { return (*static_cast<DerefType*>(ptr))(); } ),
 		  _ptr(new DerefType(std::forward<Type>(f)), _deleter)
 	{}
 
+	template<typename Type, typename DerefType = typename std::decay<Type>::type>
+	CompletionHandler(const Type &f)
+		: _deleter([](void *ptr) { delete static_cast<DerefType*>(ptr); }),
+		  _invoker([](void *ptr) { return (*static_cast<DerefType*>(ptr))(); } ),
+		  _ptr(new DerefType(f), _deleter)
+	{}
+
 	CompletionHandler(const CompletionHandler&) = delete;
-	CompletionHandler(CompletionHandler&& c) = default;
+	CompletionHandler(CompletionHandler&&) = default;
 	CompletionHandler &operator=(const CompletionHandler&) = delete;
-	CompletionHandler &operator=(CompletionHandler&& c) = default;
+	CompletionHandler &operator=(CompletionHandler&&) = default;
 	~CompletionHandler() = default;
 
 	void operator()()

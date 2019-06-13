@@ -7,7 +7,7 @@
 
 #pragma once
 
-namespace async {
+namespace kpm::async {
 
 class Service {
 
@@ -21,7 +21,7 @@ public:
 	void setStop();
 	bool active() const;
 	void launch();
-	void tryJoin();
+	void stopContext();
 
 private:
 	CrossQueue<CompletionHandler> *_q;

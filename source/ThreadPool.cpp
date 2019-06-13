@@ -1,6 +1,6 @@
 #include "ThreadPool.hpp"
 
-namespace async::threadpool {
+namespace kpm::async::threadpool {
 
 LocalInstance threadpool::GlobalInstance::Instance;
 
@@ -40,7 +40,7 @@ void LocalInstance::stop()
 	for (auto &it : _services) {
 		it->setStop();
 		_condVar.notify_all();
-		it->tryJoin();
+		it->stopContext();
 	}
 	_condVar.notify_all();
 }

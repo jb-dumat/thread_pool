@@ -7,7 +7,7 @@
 
 #pragma once
 
-namespace async::threadpool {
+namespace kpm::async::threadpool {
 
 class LocalInstance {
 public:
@@ -35,7 +35,7 @@ private:
 
 }
 
-namespace async::threadpool {
+namespace kpm::async::threadpool {
 class GlobalInstance {
 public:
 	~GlobalInstance() {
@@ -60,6 +60,6 @@ public:
 private:
 	static LocalInstance Instance;
 
-	GlobalInstance() = default;
+	GlobalInstance() {}
 };
 }

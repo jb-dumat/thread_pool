@@ -2,7 +2,6 @@
 #include <string>
 #include <functional>
 
-
 #include "ThreadPool.hpp"
 
 static std::mutex IO_MUTEX;
@@ -42,7 +41,7 @@ public:
 int main(int, char *[])
 {
     // Using local instance of the threadpool
-    async::threadpool::LocalInstance pool;
+    kpm::async::threadpool::LocalInstance pool;
 
     // Posting a lambda
     pool.post([]() { COUT("lambda: Hello World!"); });
@@ -62,12 +61,12 @@ int main(int, char *[])
     pool.post(v);
 
     // Using global instance of the threadpool
-    async::threadpool::GlobalInstance::post([]() { COUT("lambda using global instance"); });
-//    async::threadpool::GlobalInstance::post(v);
-    async::threadpool::GlobalInstance::post(f);
+    //kpm::async::threadpool::GlobalInstance::post([]() { COUT("lambda using global instance"); });
+    //kpm::async::threadpool::GlobalInstance::post(v);
+//    kpm::async::threadpool::GlobalInstance::post(f);
 
     pool.stop();
-    async::threadpool::GlobalInstance::stop();
+    //kpm::async::threadpool::GlobalInstance::stop();
     return 0;
 }
 
