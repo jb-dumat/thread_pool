@@ -15,6 +15,7 @@ public:
 	explicit LocalInstance(uint32_t servicesNumber);
 	virtual ~LocalInstance();
 
+	void makeServices(uint32_t servicesNumber);
 	void post(CompletionHandler &&task);
 	uint32_t activeServices();
 	void stop();

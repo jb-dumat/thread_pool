@@ -24,8 +24,8 @@ Service &Service::operator=(Service &&s)
 	_m = std::move(s._m);
 	_c = std::move(s._c);
 	_t = std::move(s._t);
-	_isActive = false;
-	_stop = false;
+	_isActive = s._isActive == true;
+	_stop = s._stop == true;
 	return *this;
 }
 
@@ -38,23 +38,20 @@ Service::~Service()
 void Service::run()
 {
 	while (!_stop) {
-		{
-			std::unique_lock<std::mutex> _guard(*_m);
-			_c->wait(_guard, [&]() { return !_q->empty() || _stop == true; });
-			if (_stop)
-				return;
-			else if (_q->empty())
-				continue;
-		}
-
-		{
-		std::unique_lock<std::mutex> _l(*_m);
+		std::unique_lock<std::mutex> _guard(*_m);
+		_c->wait(_guard, [&]() { return !_q->empty() || _stop == true; });
+		if (_stop)
+			return;
+		else if (_q->empty())
+			continue;
+		
 		CompletionHandler task = std::move(_q->front());
 		_q->pop();
+		_guard.unlock();
+
 		_isActive = true;
 		task();
 		_isActive = false;
-		}
 	}
 }
 

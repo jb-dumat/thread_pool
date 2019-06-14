@@ -21,6 +21,7 @@ LocalInstance::~LocalInstance()
 
 void LocalInstance::post(CompletionHandler &&task)
 {
+	std::lock_guard<std::mutex> lck(_guard);
 	_tasksQueue.push(std::move(task));
 	_condVar.notify_one();
 }

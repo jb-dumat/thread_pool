@@ -2,7 +2,6 @@
 #include <string>
 #include <functional>
 
-
 #include "ThreadPool.hpp"
 
 static std::mutex IO_MUTEX;
@@ -13,6 +12,11 @@ static void COUT(Args&&... args)
     std::unique_lock<std::mutex> lock(IO_MUTEX);
     (void)std::initializer_list<int> { ((std::cout << args << " "), 0)... };
     std::cout << std::endl;
+}
+
+static void SLEEP(int milliseconds)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
 //#define DEBUG
@@ -50,8 +54,10 @@ int main(int, char *[])
     // Posting a packaged_task and get future
     std::packaged_task<int()> pt(f);
     std::future<int> promise = pt.get_future();
+
     pool.post(std::move(pt));
     promise.wait();
+
     COUT("function and future:", promise.get());
 
     // Posting binded public method with arg(s)
@@ -63,11 +69,12 @@ int main(int, char *[])
 
     // Using global instance of the threadpool
     async::threadpool::GlobalInstance::post([]() { COUT("lambda using global instance"); });
-//    async::threadpool::GlobalInstance::post(v);
+    async::threadpool::GlobalInstance::post(v);
     async::threadpool::GlobalInstance::post(f);
 
     pool.stop();
     async::threadpool::GlobalInstance::stop();
+
     return 0;
 }
 
