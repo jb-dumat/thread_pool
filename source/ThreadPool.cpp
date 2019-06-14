@@ -2,12 +2,7 @@
 
 namespace async::threadpool {
 
-LocalInstance threadpool::GlobalInstance::Instance;
-
-LocalInstance::LocalInstance()
-{
-	_createServices(std::thread::hardware_concurrency());
-}
+LocalInstance threadpool::GlobalInstance::Instance(std::thread::hardware_concurrency());
 
 LocalInstance::LocalInstance(uint32_t servicesNumber)
 {
@@ -17,6 +12,11 @@ LocalInstance::LocalInstance(uint32_t servicesNumber)
 LocalInstance::~LocalInstance()
 {
 	stop();
+}
+
+void LocalInstance::makeServices(uint32_t servicesNumber)
+{
+	_createServices(servicesNumber);
 }
 
 void LocalInstance::post(CompletionHandler &&task)

@@ -10,32 +10,13 @@ Service::Service(CrossQueue<CompletionHandler> *q, std::mutex *m, std::condition
 
 }
 
-Service::Service(Service &&s)
-	: _q(std::move(s._q)), _m(std::move(s._m)), _c(std::move(s._c)),
-	  _isActive(false), _stop(false),
-	  _t(std::move(s._t))
-{
-
-}
-
-Service &Service::operator=(Service &&s)
-{
-	_q = std::move(s._q);
-	_m = std::move(s._m);
-	_c = std::move(s._c);
-	_t = std::move(s._t);
-	_isActive = s._isActive == true;
-	_stop = s._stop == true;
-	return *this;
-}
-
 Service::~Service()
 {
 	if (_t.joinable())
 		_t.join();
 }
 
-void Service::run()
+void Service::_run()
 {
 	while (!_stop) {
 		std::unique_lock<std::mutex> _guard(*_m);
@@ -44,7 +25,6 @@ void Service::run()
 			return;
 		else if (_q->empty())
 			continue;
-		
 		CompletionHandler task = std::move(_q->front());
 		_q->pop();
 		_guard.unlock();
@@ -73,7 +53,7 @@ bool Service::active() const
 
 void Service::launch()
 {
-	_t = std::thread(&Service::run, this);
+	_t = std::thread(&Service::_run, this);
 }
 
 }

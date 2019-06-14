@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <functional>
+#include <future>
 
 #include "ThreadPool.hpp"
 
@@ -16,6 +17,7 @@ static void COUT(Args&&... args)
 
 static void SLEEP(int milliseconds)
 {
+    (void)SLEEP;
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
@@ -46,7 +48,7 @@ public:
 int main(int, char *[])
 {
     // Using local instance of the threadpool
-    async::threadpool::LocalInstance pool;
+    async::threadpool::LocalInstance pool(std::thread::hardware_concurrency());
 
     // Posting a lambda
     pool.post([]() { COUT("lambda: Hello World!"); });
@@ -64,8 +66,6 @@ int main(int, char *[])
     A a;
     std::string s("bar");
     pool.post(std::bind(&A::foo, a, s));
-
-    pool.post(v);
 
     // Using global instance of the threadpool
     async::threadpool::GlobalInstance::post([]() { COUT("lambda using global instance"); });
