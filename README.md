@@ -24,7 +24,7 @@ Launch the program with the command:
 
 ## Authors
 
-* **Jean-Baptiste Dumat** - *Initial work* - [jbdumat](https://github.com/jbdumat)
+* **Jean-Baptiste Dumat** - [jb-dumat](https://github.com/jb-dumat)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
