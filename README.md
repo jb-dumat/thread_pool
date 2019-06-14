@@ -26,8 +26,6 @@ Launch the program with the command:
 
 * **Jean-Baptiste Dumat** - [jb-dumat](https://github.com/jb-dumat)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
