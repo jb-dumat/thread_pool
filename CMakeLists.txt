@@ -21,7 +21,7 @@ target_link_libraries(${PROJECT_NAME} -pthread)
 # Compiler flags
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 	# G++
-	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -g3)
+	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -O3)
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 	# MSVC
 	target_compile_options(${PROJECT_NAME} PRIVATE /EHsc /MTd /W2 /c)
