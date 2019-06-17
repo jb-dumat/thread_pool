@@ -21,11 +21,6 @@ static void SLEEP(int milliseconds)
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
-//#define DEBUG
-#ifdef DEBUG
-
-#else
-
 static void v()
 {
     COUT("no return fct");
@@ -53,13 +48,11 @@ int main(int, char *[])
     // Posting a lambda
     pool.post([]() { COUT("lambda: Hello World!"); });
 
-    // Posting a packaged_task and get future
+    // Posting a packaged_task and use a get future
     std::packaged_task<int()> pt(f);
     std::future<int> promise = pt.get_future();
-
     pool.post(std::move(pt));
     promise.wait();
-
     COUT("function and future:", promise.get());
 
     // Posting binded public method with arg(s)
@@ -72,10 +65,9 @@ int main(int, char *[])
     async::threadpool::GlobalInstance::post(v);
     async::threadpool::GlobalInstance::post(f);
 
+    // Stop pools
     pool.stop();
     async::threadpool::GlobalInstance::stop();
 
     return 0;
 }
-
-#endif
