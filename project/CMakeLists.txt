@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.7)
 
+set(PROJECT_PATH ${CMAKE_SOURCE_DIR}/project)
+
 # Add all needed sources files
 set(MAIN
-    ${CMAKE_SOURCE_DIR}/main.cpp
+    ${PROJECT_PATH}/main.cpp
 )
 
 # Now simply link against gtest or gtest_main as needed. Eg
