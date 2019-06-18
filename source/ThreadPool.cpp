@@ -4,7 +4,7 @@ namespace async::threadpool {
 
 LocalInstance threadpool::GlobalInstance::Instance(std::thread::hardware_concurrency());
 
-LocalInstance::LocalInstance(uint32_t servicesNumber)
+LocalInstance::LocalInstance(size_t servicesNumber)
 {
 	_createServices(servicesNumber);
 }
@@ -14,7 +14,7 @@ LocalInstance::~LocalInstance()
 	stop();
 }
 
-void LocalInstance::makeServices(uint32_t servicesNumber)
+void LocalInstance::makeServices(size_t servicesNumber)
 {
 	_createServices(servicesNumber);
 }
@@ -26,10 +26,10 @@ void LocalInstance::post(CompletionHandler &&task)
 	_condVar.notify_one();
 }
 
-uint32_t LocalInstance::activeServices()
+size_t LocalInstance::activeServices()
 {
-	uint32_t count = 0;
-	for (const auto &it : _services) {
+	size_t count = 0;
+	for (const std::unique_ptr<Service> &it : _services) {
 		if (it->active())
 			++count;
 	}
@@ -38,7 +38,7 @@ uint32_t LocalInstance::activeServices()
 
 void LocalInstance::stop()
 {
-	for (auto &it : _services) {
+	for (std::unique_ptr<Service> &it : _services) {
 		it->setStop();
 		_condVar.notify_all();
 		it->tryJoin();
@@ -46,7 +46,7 @@ void LocalInstance::stop()
 	_condVar.notify_all();
 }
 
-void LocalInstance::_createServices(uint32_t servicesNumber)
+void LocalInstance::_createServices(size_t servicesNumber)
 {
 	for (unsigned int it = 0; it < servicesNumber; ++it) {
 		_services.push_back(std::make_unique<Service>(&_tasksQueue, &_guard, &_condVar));

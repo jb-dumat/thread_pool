@@ -28,7 +28,7 @@ public:
 	 * services to build. You can use std::thread::hardware_concurrency
 	 * if you are not sure of how many threads your systems can supports.
 	 */
-	explicit LocalInstance(uint32_t servicesNumber);
+	explicit LocalInstance(size_t servicesNumber);
 
 	/**
 	 * Constructors
@@ -45,7 +45,7 @@ public:
 	 * Public method: makeServices
 	 * Make a new service and adds it the the services table.
 	 */
-	void makeServices(uint32_t servicesNumber);
+	void makeServices(size_t servicesNumber);
 	
 	/**
 	 * Public method: post
@@ -57,13 +57,13 @@ public:
 	 * Public method: activeServices
 	 * Returns how many services are currently iddles.
 	 */
-	uint32_t activeServices();
+	size_t activeServices();
 
 	/**
 	 * Public method: size
 	 * Returns the size of the threadpool (number of services).
 	 */
-	uint32_t size() const { return _services.size(); };
+	size_t size() const { return _services.size(); };
 
 	/**
 	 * Public method: stop
@@ -75,7 +75,7 @@ private:
 	/**
 	 * Private method: _createServices
 	 */
-	void _createServices(uint32_t servicesNumber);
+	void _createServices(size_t servicesNumber);
 
 	/**
 	 * Attribute: _services
@@ -147,7 +147,7 @@ public:
 	 * Public method: activeServices
 	 * Call the LocalInstance 'activeServices' method.
 	 */
-	static uint32_t activeServices()
+	static size_t activeServices()
 	{
 		return Instance.activeServices();
 	}
