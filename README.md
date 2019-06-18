@@ -1,9 +1,10 @@
 # thread_pool
-A lite, generic and crossplatform threadpool in C++
+A lite, generic and crossplatform threadpool in C++.
+This project is tested by using google tests.
 
 ### Installing
 
-You can run the program by following these steps:
+You can use the source code only. If you want to build it or run the units tests you'll need to follow theses steps.
 
 First create a build directory at the root of the repository:
 ```
@@ -16,10 +17,14 @@ cmake ..
 cmake --build .
 ```
 
-Launch the program with the command:
-
+The demo project is located in the 'project' directory
 ```
-./thread_pool
+./project/thread_pool
+```
+
+The units tests are located in the 'tests' directory
+```
+./project/thread_pool
 ```
 
 ## Authors
