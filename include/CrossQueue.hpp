@@ -52,7 +52,7 @@ public:
 	 */
 	void push(T &&data)
 	{
-		std::unique_lock<std::mutex> lock(_guard);
+		std::lock_guard<std::mutex> lock(_guard);
 		static_cast<Queue*>(this)->push(std::move(data));
 	}
 
@@ -71,7 +71,7 @@ public:
 	template<typename... Args>
 	void emplace(Args&&... args)
 	{
-		std::unique_lock<std::mutex> lock(_guard);
+		std::lock_guard<std::mutex> lock(_guard);
 		static_cast<Queue*>(this)->emplace(std::forward<Args>(args)...);
 	}
 
@@ -87,7 +87,7 @@ public:
 	 */
 	void pop()
 	{
-		std::unique_lock<std::mutex> lock(_guard);
+		std::lock_guard<std::mutex> lock(_guard);
 		static_cast<Queue*>(this)->pop();
 	}
 
@@ -96,7 +96,7 @@ public:
 	 */
 	void swap(CrossQueue<T> &queue) noexcept
 	{
-		std::unique_lock<std::mutex> lock(_guard);
+		std::lock_guard<std::mutex> lock(_guard);
 		static_cast<Queue*>(this)->swap(queue);
 	}
 
@@ -105,7 +105,7 @@ public:
 	 */
 	T &front()
 	{
-		std::unique_lock<std::mutex> lock(_guard);
+		std::lock_guard<std::mutex> lock(_guard);
 		return static_cast<Queue*>(this)->front();
 	}
 
@@ -114,7 +114,7 @@ public:
 	 */
 	const T &front() const
 	{
-		std::unique_lock<std::mutex> lock(_guard);
+		std::lock_guard<std::mutex> lock(_guard);
 		return static_cast<const Queue*>(this)->front();
 	}
 
@@ -123,7 +123,7 @@ public:
 	 */
 	T &back()
 	{
-		std::unique_lock<std::mutex> lock(_guard);
+		std::lock_guard<std::mutex> lock(_guard);
 		return static_cast<Queue*>(this)->back();
 	}
 
@@ -132,7 +132,7 @@ public:
 	 */
 	const T &back() const
 	{
-		std::unique_lock<std::mutex> lock(_guard);
+		std::lock_guard<std::mutex> lock(_guard);
 		return static_cast<const Queue*>(this)->back();
 	}
 
@@ -141,7 +141,7 @@ public:
 	 */
 	bool empty() const
 	{
-		std::unique_lock<std::mutex> lock(_guard);
+		std::lock_guard<std::mutex> lock(_guard);
 		return static_cast<const Queue*>(this)->empty();
 	}
 
@@ -150,7 +150,7 @@ public:
 	 */
 	size_t size() const
 	{
-		std::unique_lock<std::mutex> lock(_guard);
+		std::lock_guard<std::mutex> lock(_guard);
 		return static_cast<const Queue*>(this)->size();
 	}
 
