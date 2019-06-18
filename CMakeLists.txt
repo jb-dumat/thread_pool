@@ -3,26 +3,16 @@ project(thread_pool)
 
 # Add all needed sources files
 set(SOURCES
-	main.cpp
-	
-	source/Service.cpp
-	source/ThreadPool.cpp
+    ${CMAKE_SOURCE_DIR}/source/Service.cpp
+	${CMAKE_SOURCE_DIR}/source/ThreadPool.cpp
 )
 
-# Add executable
-add_executable(${PROJECT_NAME} ${SOURCES})
-
-# Add includes directories
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
-
-# Link the project with needed libraries
-target_link_libraries(${PROJECT_NAME} -pthread)
-
 # Compiler flags
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-	# G++
-	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -O3)
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
-	# MSVC
-	target_compile_options(${PROJECT_NAME} PRIVATE /EHsc /MTd /W2 /c)
+if(MSVC)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
+elseif(GNU)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Wextra")
 endif()
+
+add_subdirectory(tests)
+add_subdirectory(project)

@@ -58,7 +58,13 @@ public:
 	 * Returns how many services are currently iddles.
 	 */
 	uint32_t activeServices();
-	
+
+	/**
+	 * Public method: size
+	 * Returns the size of the threadpool (number of services).
+	 */
+	uint32_t size() const { return _services.size(); };
+
 	/**
 	 * Public method: stop
 	 * Stops the thread_pool and waits for tasks to be done.

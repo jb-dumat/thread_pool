@@ -17,7 +17,6 @@ static void COUT(Args&&... args)
 
 static void SLEEP(int milliseconds)
 {
-    (void)SLEEP;
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
