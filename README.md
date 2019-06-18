@@ -24,7 +24,7 @@ The demo project is located in the 'project' directory
 
 The units tests are located in the 'tests' directory
 ```
-./project/thread_pool
+./tests/units_tests
 ```
 
 ## Authors
